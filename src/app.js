@@ -2,26 +2,44 @@ const express = require("express");
 
 const app = express();
 
-app.use(
+const { adminAuth, userAuth } = require("./middlewares/auth");
+
+// Handle auth middleware for all request get, post, patch, put, delete
+app.use("/admin", adminAuth);
+// app.use("/user", userAuth);
+
+app.get("/user", userAuth, (req, res) => {
+  res.send("All Data sent111.");
+});
+
+app.post("/user/loggedIn", (req, res) => {
+  res.send("User logged in successfully.");
+});
+
+app.get("/admin/getAllData", (req, res) => {
+  res.send("All Data sent.");
+});
+
+app.delete("/admin/deleteUser", (req, res) => {
+  res.send("Deleted a user.");
+});
+
+app.use("/", (req, res, next) => {
+  // console.log("Save data to database 2.");
+  // res.send("Data successfully saved to DB 2.");
+  next();
+});
+
+app.get(
   "/user",
   (req, res, next) => {
     console.log("Save data to database.");
     next();
     // res.send("Data successfully saved to DB.");
   },
-  (req, res, next) => {
+  (req, res) => {
     console.log("Save data to database 2.");
-    // res.send("Data successfully saved to DB 2.");
-    next();
-  },
-  (req, res, next) => {
-    console.log("Save data to database 3.");
-    // res.send("Data successfully saved to DB 3.");
-    next();
-  },
-  (req, res, next) => {
-    console.log("Save data to database 4.");
-    res.send("Data successfully saved to DB 4.");
+    res.send("Data successfully saved to DB 2.");
     // next();
   }
 );
