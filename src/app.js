@@ -2,27 +2,41 @@ const express = require("express");
 
 const app = express();
 
-const { adminAuth, userAuth } = require("./middlewares/auth");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong.");
+  }
+});
+
+app.get("/getUserData", (req, res) => {
+  try {
+    throw new Error("bfjkds");
+    res.send("All Data sent.");
+  } catch (err) {
+    res.status(500).send("Some error contact support team.");
+  }
+});
+
+// const { adminAuth, userAuth } = require("./middlewares/auth");
 
 // Handle auth middleware for all request get, post, patch, put, delete
-app.use("/admin", adminAuth);
-// app.use("/user", userAuth);
+// app.use("/admin", adminAuth);
 
-app.get("/user", userAuth, (req, res) => {
-  res.send("All Data sent111.");
-});
+// app.get("/user", userAuth, (req, res) => {
+//   res.send("All Data sent111.");
+// });
 
-app.post("/user/loggedIn", (req, res) => {
-  res.send("User logged in successfully.");
-});
+// app.post("/user/loggedIn", (req, res) => {
+//   res.send("User logged in successfully.");
+// });
 
-app.get("/admin/getAllData", (req, res) => {
-  res.send("All Data sent.");
-});
+// app.get("/admin/getAllData", (req, res) => {
+//   res.send("All Data sent.");
+// });
 
-app.delete("/admin/deleteUser", (req, res) => {
-  res.send("Deleted a user.");
-});
+// app.delete("/admin/deleteUser", (req, res) => {
+//   res.send("Deleted a user.");
+// });
 
 app.use("/", (req, res, next) => {
   // console.log("Save data to database 2.");
